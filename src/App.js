@@ -1,72 +1,75 @@
 import React, { Component } from "react"
 import "./App.css"
-import PropTypes from "prop-types"
 
-// 1. Install prop-types as aseparate module
-// 2. Built-in type checking to validate props
-// 3. Prop-types include: array, bool, func, object, string, number
+// Controlled and UnControlled Inputs
 
-const Person = ({ img, name, age, info }) => {
-  return (
-    <article>
-      <img src={img} alt="Person" />
-      <h4>Name:{name}</h4>
-      <h4>Age:{age}</h4>
-      <h4>Info:{info}</h4>
-    </article>
-  )
-}
+// For JavaScript:
+// const input = document.getElementById('myText')
+// const inputValue = input.value
 
-Person.propTypes = {
-  img: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  age: PropTypes.number.isRequired
-}
+// For React
+// value, onChange
 
-Person.defaultProps = {
-  img: "https://randomuser.me/api/portraits/thumb/men/45.jpg",
-  name: "James Doe",
-  age: 34,
-  info: "Defaullt info about a person"
-}
-
-class PersonList extends Component {
+class Form extends Component {
   state = {
-    people: [
-      {
-        id: 1,
-        img: "https://randomuser.me/api/portraits/thumb/men/65.jpg",
-        name: "John",
-        age: 24
-      },
-      {
-        id: 2,
-        // img: "https://randomuser.me/api/portraits/thumb/men/34.jpg",
-        // name: "Bob",
-        age: 27
-      },
-      {
-        id: 3,
-        img: "https://randomuser.me/api/portraits/thumb/men/87.jpg",
-        name: "Peter",
-        age: 27,
-        info: "A brief bio about Peter"
-      }
-    ]
+    firstName: "",
+    lastName: "",
+    people: [],
+  }
+
+  handleChange = event => {
+    // console.log(event.target.name)
+    // console.log(event.target.value)
+
+    // const textValue = event.target.value
+    // this.setState({
+    //   firstName: textValue,
+    // })
+
+    this.setState({
+      [event.target.name]: [event.target.value],
+    })
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+
+    const firstName = this.state.firstName
+    const lastName = this.state.lastName
+    console.log(firstName, lastName)
+
+    this.setState({
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+    })
   }
 
   render() {
     return (
       <section>
-        {this.state.people.map(person => (
-          <Person
-            key={person.id}
-            img={person.img}
-            name={person.name}
-            age={person.age}
-            info={person.info}
-          />
-        ))}
+        <article>
+          <form onSubmit={this.handleSubmit}>
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First Name"
+              value={this.state.firstName}
+              onChange={this.handleChange}
+            />
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last Name"
+              value={this.state.lastName}
+              onChange={this.handleChange}
+            />
+            <button type="submit">Submit</button>
+          </form>
+        </article>
+        <article>
+          <h1>People</h1>
+          <div>{this.state.people}</div>
+        </article>
       </section>
     )
   }
@@ -74,7 +77,7 @@ class PersonList extends Component {
 
 class App extends Component {
   render() {
-    return <PersonList />
+    return <Form />
   }
 }
 
