@@ -14,7 +14,7 @@ class Form extends Component {
   state = {
     firstName: "",
     lastName: "",
-    people: [],
+    people: []
   }
 
   handleChange = event => {
@@ -26,8 +26,10 @@ class Form extends Component {
     //   firstName: textValue,
     // })
 
+    const value = event.target.value.toUpperCase()
+
     this.setState({
-      [event.target.name]: [event.target.value],
+      [event.target.name]: value
     })
   }
 
@@ -37,10 +39,18 @@ class Form extends Component {
     const firstName = this.state.firstName
     const lastName = this.state.lastName
     console.log(firstName, lastName)
+    if (firstName.length > 0 && lastName.length > 0) {
+      const person = ` ${firstName} ${lastName} `
+      this.setState({
+        people: [...this.state.people, person],
+        firstName: "",
+        lastName: ""
+      })
+    }
 
     this.setState({
       firstName: this.state.firstName,
-      lastName: this.state.lastName,
+      lastName: this.state.lastName
     })
   }
 
